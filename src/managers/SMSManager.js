@@ -24,6 +24,8 @@ class SMSManager {
       })
       .then(message => console.log(message.sid))
       .catch(error => console.error(error));
+
+    // Could save every sent text to a DB to keep SMS History.
   }
 
 }

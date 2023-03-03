@@ -19,12 +19,19 @@ const smsManager = new SMSManager();
 
 
 // Routes
-app.get('/', (req, res) => {
-  res.redirect('/health');
-})
-
-app.get('/health', (req, res) => {
-  res.send('App Healthy');
+app.get(['/', '/health'], (res) => {
+  const healthcheck = {
+    uptimeInSeconds: process.uptime(),
+    responseTime: process.hrtime(),
+    message: 'OK',
+    timestamp: Date.now()
+  };
+  try {
+      res.send(healthcheck);
+  } catch (error) {
+      healthcheck.message = error;
+      res.status(503).send();
+  }
 })
 
 app.get('/alerts', async (req, res) => {
@@ -36,7 +43,6 @@ app.get('/weather', async (req, res) => {
   const weatherData = await openWeatherManager.fetchCurrentWeather();
   smsManager.sendText(weatherData);
   res.send(weatherData);
-
 })
 
 
