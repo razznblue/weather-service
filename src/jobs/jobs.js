@@ -23,6 +23,7 @@ const testJob = nodeCron.schedule(CRON.EVERY_MINUTE, () => {
 
 const startJobs = async () => {
   console.log(`Starting All Cron Jobs`);
+  testJob.start();
   dailyWeatherJob.start();
 }
 
