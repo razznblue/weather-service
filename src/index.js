@@ -19,7 +19,7 @@ const smsManager = new SMSManager();
 
 
 // Routes
-app.get(['/', '/health'], (res) => {
+app.get(['/', '/health'], (req, res) => {
   const healthcheck = {
     uptimeInSeconds: process.uptime(),
     responseTime: process.hrtime(),
@@ -30,7 +30,7 @@ app.get(['/', '/health'], (res) => {
       res.send(healthcheck);
   } catch (error) {
       healthcheck.message = error;
-      res.status(503).send();
+      res.send(healthcheck);
   }
 })
 
