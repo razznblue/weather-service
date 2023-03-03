@@ -32,7 +32,7 @@ class AlertsManager {
         console.log(NO_ALERTS_FOUND);
         return NO_ALERTS_FOUND;
       } else {
-        // TODO need to wait until an alert happens so i can see how the html is structure on their site.
+        // TODO need to wait until an alert happens irl so i can see how the html is structured on their site.
         //sendText(twilioClient, `${ALERT_DETECTED}. Visit ${KMBC_ALERTS_URL} for more details.`);
         console.log(ALERT_DETECTED);
         return `${ALERT_DETECTED}. Text Message sent.`

@@ -1,5 +1,5 @@
 {
-  "name": "kc-weather-alerts",
+  "name": "weather-service",
   "version": "1.0.0",
   "description": "Send text messages to notify of weather updates/alerts.",
   "type": "module",
