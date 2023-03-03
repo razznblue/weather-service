@@ -1,29 +1,27 @@
 import express from 'express';
 
 import AlertsManager from '../managers/AlertsManager.js';
+import HealthCheckManager from '../managers/HealthCheckManager.js';
 import OpenWeatherManager from '../managers/OpenWeatherManager.js';
 import SMSManager from '../managers/SMSManager.js';
 
 const router = express.Router();
 
-const openWeatherManager = new OpenWeatherManager();
 const alertsManager = new AlertsManager();
+const openWeatherManager = new OpenWeatherManager();
 const smsManager = new SMSManager();
 
 
 // Routes
 router.get(['/', '/health'], (req, res) => {
-  const healthcheck = {
-    uptimeInSeconds: process.uptime(),
-    responseTime: process.hrtime(),
-    message: 'OK',
-    timestamp: Date.now()
-  };
+  const healthCheckManager = new HealthCheckManager();
+  let healthStatus;
   try {
-      res.send(healthcheck);
+    healthStatus = healthCheckManager.getAppHealth();
+    res.send(healthStatus);
   } catch (error) {
-      healthcheck.message = error;
-      res.send(healthcheck);
+    healthStatus.message = error;
+    res.status(504).send(healthStatus);
   }
 })
 
