@@ -1,31 +1,32 @@
-import nodeCron from 'node-cron';
-import axios from 'axios';
-
 import OpenWeatherManager from '../managers/OpenWeatherManager.js';
+import CronJob from '../entities/CronJob.js';
+import CronJobIntervals from '../constants/cron/CronJobIntervals.js';
 
-import Constants from '../constants/constants.js';
-const { URL, CRON } = Constants;
-const { BASE_URL, LOCAL_HOST } = URL;
-
-const baseUrl = process.env.NODE_ENV === 'production' 
-  ? BASE_URL : LOCAL_HOST;
+const { DAILY_AT_SEVEN_THIRTY, EVERY_MINUTE } = CronJobIntervals;
 
 const openWeatherManager = new OpenWeatherManager();
 
-const dailyWeatherJob = nodeCron.schedule(CRON.DAILY_AT_SEVEN_THIRTY, async () => {
+
+// Define Cron Jobs
+const dailyWeatherJob = new CronJob('dailyWeatherJob', DAILY_AT_SEVEN_THIRTY, () => {
   console.log('Firing off dailyWeatherJob.');
   openWeatherManager.sendDailyWeatherText();
-}, {scheduled: false});
+});
 
-const testJob = nodeCron.schedule(CRON.EVERY_MINUTE, () => {
+const testJob = new CronJob('testJob', EVERY_MINUTE, () => {
   console.log('Hello Malevolence. Have you received our communications?');
-}, {scheduled: false});
+});
+
+// Helper Functions
+const startCronJob = (job) => {
+  console.log(`Starting CronJob [${job.name}] at interval [${job.getIntervalName()}]`);
+  job.trigger();
+}
 
 const startJobs = async () => {
   console.log(`Starting All Cron Jobs`);
-  testJob.start();
-  dailyWeatherJob.start();
+  startCronJob(testJob);
+  startCronJob(dailyWeatherJob);
 }
 
 export default startJobs;
-
