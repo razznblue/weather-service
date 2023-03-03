@@ -1,6 +1,8 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 
+import SMSManager from './SMSManager.js';
+
 dotenv.config();
 
 class OpenWeatherManager {
@@ -9,6 +11,7 @@ class OpenWeatherManager {
     this.lat = "39.100105";
     this.lon = "-94.5781416";
     this.apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;  
+    this.smsManager = new SMSManager();
   }
 
   async fetchCurrentWeather() {
@@ -24,6 +27,11 @@ class OpenWeatherManager {
     const forecastDescription = data.weather[0].description;
 
     return this.buildWeatherObjectOutput(currentTemperature, feelsLikeTemperature, forecast, forecastDescription);
+  }
+
+  async sendDailyWeatherText() {
+    const weatherData = await this.fetchCurrentWeather();
+    this.smsManager.sendText(weatherData);
   }
 
   buildWeatherObjectOutput(currentDegrees, feelsLike, forecast, description) {
