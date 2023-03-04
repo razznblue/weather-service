@@ -27,6 +27,9 @@ const textSchema = new mongoose.Schema (
     },
     error: {
       type: String
+    },
+    mediaUrl: {
+      type: String
     }
   }, { versionKey: false }
 );
