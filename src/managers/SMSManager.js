@@ -18,8 +18,11 @@ class SMSManager {
 
   async sendText(msg, recipientPhoneNumber, textType) {
     const recipient = recipientPhoneNumber ? recipientPhoneNumber : this.myPhoneNumber;
+
+    // Create Text
     const text = new Text(this.twilioTestPhoneNumber, recipient, textType, msg);
 
+    // Send SMS Text to the recipient
     const message = await this.smsClient.messages.create({
       body: msg,
       from: this.twilioTestPhoneNumber,
@@ -30,6 +33,8 @@ class SMSManager {
     text.setTwilioSid(message.sid);
     text.setPrice(message.price);
     text.setError(message.errorMessage);
+
+    // Save text to DB
     await text.save();
   }
 
