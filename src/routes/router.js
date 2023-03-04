@@ -1,14 +1,17 @@
 import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import AlertsManager from '../managers/AlertsManager.js';
 import HealthCheckManager from '../managers/HealthCheckManager.js';
 import OpenWeatherManager from '../managers/OpenWeatherManager.js';
-import SMSManager from '../managers/SMSManager.js';
 
 const router = express.Router();
 
 const alertsManager = new AlertsManager();
 const openWeatherManager = new OpenWeatherManager();
+
+const accessToken = process.env.ACCESS_TOKEN;
 
 
 // Routes
@@ -25,17 +28,31 @@ router.get(['/', '/health'], (req, res) => {
 })
 
 router.get('/alerts', async (req, res) => {
-  const alertResponse = await alertsManager.sendAlertData();
-  res.send(alertResponse);
+  if (authenticate(req)) {
+    console.debug('Authenticated Request at /alerts');
+    const alertResponse = await alertsManager.sendAlertData();
+    res.send(alertResponse);
+  } else {
+    res.status(401).send('Unauthorized');
+  }
 })
 
 router.get('/weather', async (req, res) => {
-  const weatherData = await openWeatherManager.sendDailyWeatherText();
-  if (weatherData) {
-    res.send(weatherData);
+  if (authenticate(req)) {
+    console.debug('Authenticated Request at /weather');
+    const weatherData = await openWeatherManager.sendDailyWeatherText();
+    if (weatherData) {
+      res.send(weatherData);
+    } else {
+      res.send('An Error Occurred while fetching weatherData');
+    }
   } else {
-    res.send('An Error Occurred while fetching weatherData');
+    res.status(401).send('Unauthorized');
   }
 })
+
+const authenticate = (req) => {
+  return req.query.token === accessToken ? true : false;
+}
 
 export default router;
