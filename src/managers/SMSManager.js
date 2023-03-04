@@ -16,23 +16,27 @@ class SMSManager {
     this.myPhoneNumber = process.env.MY_PHONE_NUMBER;
   }
 
-  async sendText(msg, recipientPhoneNumber, textType) {
+  async sendText(msg, recipientPhoneNumber, textType, iconCode) {
     const recipient = recipientPhoneNumber ? recipientPhoneNumber : this.myPhoneNumber;
 
     // Create Text
     const text = new Text(this.twilioTestPhoneNumber, recipient, textType, msg);
 
+    const mediaUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`
+
     // Send SMS Text to the recipient
     const message = await this.smsClient.messages.create({
       body: msg,
       from: this.twilioTestPhoneNumber,
-      to: recipient
+      mediaUrl: [mediaUrl],
+      to: recipient,
     });
     text.setMessage(message.body);
     text.setTimeSent(message.dateCreated);
     text.setTwilioSid(message.sid);
     text.setPrice(message.price);
     text.setError(message.errorMessage);
+    text.setMediaUrl(mediaUrl);
 
     // Save text to DB
     await text.save();

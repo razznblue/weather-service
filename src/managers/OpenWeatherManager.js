@@ -26,17 +26,20 @@ class OpenWeatherManager {
     const feelsLikeTemperature = this.toFarenheit(data.main.feels_like);
     const forecast = data.weather[0].main;
     const forecastDescription = data.weather[0].description;
+    const iconCode = data.weather[0].icon;
 
-    return this.buildWeatherObjectOutput(currentTemperature, feelsLikeTemperature, forecast, forecastDescription);
+    return [this.buildDailyWeatherMessage(currentTemperature, feelsLikeTemperature, forecast, forecastDescription), iconCode];
   }
 
   async sendDailyWeatherText() {
     const weatherData = await this.fetchCurrentWeather();
-    await this.smsManager.sendText(weatherData, null, TextType.DailyWeather);
+    const msg = weatherData[0];
+    const iconCode = weatherData[1];
+    await this.smsManager.sendText(msg, null, TextType.DailyWeather, iconCode);
     return weatherData;
   }
 
-  buildWeatherObjectOutput(currentDegrees, feelsLike, forecast, description) {
+  buildDailyWeatherMessage(currentDegrees, feelsLike, forecast, description) {
     return `Daily Weather Report\n ${currentDegrees}° feels like ${feelsLike}°. \n${forecast} - ${description}`;
   }
 

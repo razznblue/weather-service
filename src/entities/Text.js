@@ -20,7 +20,8 @@ class Text {
       timeSent: this.timeSent,
       sid: this.sid,
       price: this.price,
-      error: this.error
+      error: this.error,
+      mediaUrl: this.mediaUrl
     });
     const savedText = await text.save();
     console.log(savedText);
@@ -44,6 +45,10 @@ class Text {
 
   setError(error) {
     this.error = error;
+  }
+
+  setMediaUrl(mediaUrl) {
+    this.mediaUrl = mediaUrl;
   }
 
 }
