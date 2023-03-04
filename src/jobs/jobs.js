@@ -2,13 +2,13 @@ import OpenWeatherManager from '../managers/OpenWeatherManager.js';
 import CronJob from '../entities/CronJob.js';
 import CronJobIntervals from '../constants/cron/CronJobIntervals.js';
 
-const { DAILY_AT_SEVEN_THIRTY, EVERY_MINUTE } = CronJobIntervals;
+const { DAILY_AT_SEVEN_THIRTY_AM, EVERY_MINUTE } = CronJobIntervals;
 
 const openWeatherManager = new OpenWeatherManager();
 
 
 // Define Cron Jobs
-const dailyWeatherJob = new CronJob('dailyWeatherJob', DAILY_AT_SEVEN_THIRTY, () => {
+const dailyWeatherJob = new CronJob('dailyWeatherJob', DAILY_AT_SEVEN_THIRTY_AM, () => {
   console.log('Firing off dailyWeatherJob.');
   openWeatherManager.sendDailyWeatherText();
 });

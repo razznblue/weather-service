@@ -1,6 +1,7 @@
 import express from 'express';
-import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import axios from 'axios';
+import dotenv from 'dotenv';
 dotenv.config();
 
 import router from './routes/router.js';
@@ -26,5 +27,14 @@ const EVERY_FIVE_MINUTES = 300000;
 // APP
 app.listen(port, () => {
   console.log(`Weather-Service running on port ${port}`);
+
+  mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true, 
+      useUnifiedTopology: true,
+  }).then(() => {
+      console.log("Connected to DB"); 
+  }, err => { console.log(err) });
+
   startJobs();
+ 
 })

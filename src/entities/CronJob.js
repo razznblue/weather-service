@@ -21,7 +21,7 @@ class CronJob {
   createJob(jobDetails) {
     return nodeCron.schedule(this.interval.expression, async () => {
       jobDetails();
-    }, {scheduled: false});
+    }, {scheduled: false, timezone: "America/Chicago"});
   }
 
 }

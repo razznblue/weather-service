@@ -1,6 +1,8 @@
 import twilio from 'twilio';
 import dotenv from 'dotenv';
 
+import Text from '../entities/Text.js';
+
 dotenv.config();
 
 
@@ -14,18 +16,26 @@ class SMSManager {
     this.myPhoneNumber = process.env.MY_PHONE_NUMBER;
   }
 
-  sendText(msg, recipientPhoneNumber) {
+  async sendText(msg, recipientPhoneNumber, textType) {
     const recipient = recipientPhoneNumber ? recipientPhoneNumber : this.myPhoneNumber;
-    this.smsClient.messages
-      .create({
-        body: msg,
-        from: this.twilioTestPhoneNumber,
-        to: recipient
-      })
-      .then(message => console.log(message.sid))
-      .catch(error => console.error(error));
 
-    // Could save every sent text to a DB to keep SMS History.
+    // Create Text
+    const text = new Text(this.twilioTestPhoneNumber, recipient, textType, msg);
+
+    // Send SMS Text to the recipient
+    const message = await this.smsClient.messages.create({
+      body: msg,
+      from: this.twilioTestPhoneNumber,
+      to: recipient
+    });
+    text.setMessage(message.body);
+    text.setTimeSent(message.dateCreated);
+    text.setTwilioSid(message.sid);
+    text.setPrice(message.price);
+    text.setError(message.errorMessage);
+
+    // Save text to DB
+    await text.save();
   }
 
 }
