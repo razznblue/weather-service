@@ -9,7 +9,6 @@ const router = express.Router();
 
 const alertsManager = new AlertsManager();
 const openWeatherManager = new OpenWeatherManager();
-const smsManager = new SMSManager();
 
 
 // Routes
@@ -31,9 +30,12 @@ router.get('/alerts', async (req, res) => {
 })
 
 router.get('/weather', async (req, res) => {
-  const weatherData = await openWeatherManager.fetchCurrentWeather();
-  smsManager.sendText(weatherData);
-  res.send(weatherData);
+  const weatherData = await openWeatherManager.sendDailyWeatherText();
+  if (weatherData) {
+    res.send(weatherData);
+  } else {
+    res.send('An Error Occurred while fetching weatherData');
+  }
 })
 
 export default router;

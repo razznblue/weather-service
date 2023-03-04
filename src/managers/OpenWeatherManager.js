@@ -1,6 +1,7 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 
+import TextType from '../enums/TextType.js';
 import SMSManager from './SMSManager.js';
 
 dotenv.config();
@@ -31,7 +32,8 @@ class OpenWeatherManager {
 
   async sendDailyWeatherText() {
     const weatherData = await this.fetchCurrentWeather();
-    this.smsManager.sendText(weatherData);
+    await this.smsManager.sendText(weatherData, null, TextType.DailyWeather);
+    return weatherData;
   }
 
   buildWeatherObjectOutput(currentDegrees, feelsLike, forecast, description) {
