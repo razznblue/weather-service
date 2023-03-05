@@ -1,6 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import axios from 'axios';
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -14,7 +18,14 @@ const baseUrl = process.env.NODE_ENV === 'production'
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Middleware
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs')
+
 app.use('/', router);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true })); // Enable our form data to be accessed by the 'req' variable in our routes
+app.use(express.json());
 
 const EVERY_FIVE_MINUTES = 300000;
 (async () => {

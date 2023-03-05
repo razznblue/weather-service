@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -50,6 +51,22 @@ router.get('/weather', async (req, res) => {
     res.status(401).send('Unauthorized');
   }
 })
+
+
+// User-Facing Routes
+router.get('/register', (req, res) => {
+  res.render('register');
+})
+
+router.get('/login', (req, res) => {
+  res.render('login');
+})
+
+router.get('/profile', (req, res) => {
+  res.render('profile');
+})
+
+
 
 const authenticate = (req) => {
   return req.query.token === accessToken ? true : false;
