@@ -58,6 +58,14 @@ router.get('/register', (req, res) => {
   res.render('register');
 })
 
+router.post('/register', (req, res) => {
+  console.log('registered');
+  if (req.body) {
+    console.log(req.body);
+  }
+  res.render('register');
+})
+
 router.get('/login', (req, res) => {
   res.render('login');
 })
