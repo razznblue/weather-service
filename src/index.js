@@ -3,8 +3,6 @@ import mongoose from 'mongoose';
 import axios from 'axios';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -12,6 +10,7 @@ import router from './routes/router.js';
 import startJobs from './jobs/jobs.js';
 import Constants from './constants/constants.js';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const baseUrl = process.env.NODE_ENV === 'production' 
   ? Constants.URL.BASE_URL : Constants.URL.LOCAL_HOST;
 
@@ -47,5 +46,4 @@ app.listen(port, () => {
   }, err => { console.log(err) });
 
   startJobs();
- 
 })
