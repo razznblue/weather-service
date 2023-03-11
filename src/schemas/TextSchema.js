@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+const collectionName = "Texts";
 const textSchema = new mongoose.Schema (
   {
     sender: {
@@ -30,10 +31,13 @@ const textSchema = new mongoose.Schema (
     },
     mediaUrl: {
       type: String
+    },
+    conditionCodeId: { 
+      type: mongoose.Types.ObjectId, ref: 'ConditionCode',
     }
-  }, { versionKey: false }
+  }, { versionKey: false, collection: collectionName }
 );
 
-const TextSchema = mongoose.model('Text', textSchema);
+const TextSchema = mongoose.model(collectionName, textSchema);
  
 export default TextSchema;

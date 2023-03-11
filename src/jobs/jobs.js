@@ -9,7 +9,7 @@ const openWeatherManager = new OpenWeatherManager();
 const alertsManager = new AlertsManager();
 
 
-// Define Cron Jobs
+// Define Cron Jobs Here(maybe move to the DB one day)
 const dailyWeatherJob = new CronJob('dailyWeatherJob', DAILY_AT_SEVEN_THIRTY_AM, async () => {
   console.log('Firing off dailyWeatherJob.');
   await openWeatherManager.sendDailyWeatherText();
@@ -18,6 +18,7 @@ const dailyWeatherJob = new CronJob('dailyWeatherJob', DAILY_AT_SEVEN_THIRTY_AM,
 const alertsJob = new CronJob('alertsJob', EVERY_FIVE_MINUTES, async () => {
   await alertsManager.sendAlertData();
 });
+
 
 // Helper Functions
 const startCronJob = (job) => {
