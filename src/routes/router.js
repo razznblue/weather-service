@@ -40,15 +40,16 @@ router.get('/alerts', async (req, res) => {
 router.get('/weather', async (req, res) => {
   if (authenticate(req)) {
     console.debug('Authenticated Request at /weather');
-    const weatherData = await openWeatherManager.sendDailyWeatherText();
-    if (weatherData) {
-      res.send(weatherData);
-    } else {
-      res.send('An Error Occurred while fetching weatherData');
-    }
+    const response = await openWeatherManager.sendDailyWeatherText();
+    res.status(response.status).send(response.msg);
   } else {
     res.status(401).send('Unauthorized');
   }
+})
+
+router.get('/forecast', async(req, res) => {
+  const data = await openWeatherManager.fetchFiveDayWeather();
+  res.send(data);
 })
 
 const authenticate = (req) => {
