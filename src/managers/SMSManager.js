@@ -46,6 +46,33 @@ class SMSManager {
       return {status: 400, msg: "Error sending daily weather report. See logs for details"};
     }
   }
+
+
+  async sendAlertsText(msg, recipientPhoneNumber, textType) {
+    const recipient = recipientPhoneNumber ? recipientPhoneNumber : this.myPhoneNumber;
+    const text = new Text(this.twilioTestPhoneNumber, recipient, textType, msg);
+
+    try {
+      const message = await this.smsClient.messages.create({
+        body: msg,
+        from: this.twilioTestPhoneNumber,
+        to: recipient,
+      });
+      text.setMessage(message.body);
+      text.setTimeSent(message.dateCreated);
+      text.setTwilioSid(message.sid);
+      text.setPrice(message.price);
+      text.setError(message.errorMessage);
+      await text.save();
+      return {status: 200, msg: "Severe weather alert sent successfully"};
+
+    } catch (err) {
+      console.error(err);
+      return {status: 400, msg: "Error sending severe weather alert. See logs for details"};
+    }
+
+  }
+
 }
 
 export default SMSManager;

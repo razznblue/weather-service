@@ -8,13 +8,13 @@ import connectToDB from './config/db.js';
 import startJobs from './jobs/jobs.js';
 import Constants from './constants/constants.js';
 
+
 const baseUrl = process.env.NODE_ENV === 'production' 
   ? Constants.URL.BASE_URL : Constants.URL.LOCAL_HOST;
 const port = process.env.PORT || 3000;
 
 const app = express();
 setMiddleware(app);
-
 
 const EVERY_FIVE_MINUTES = 300000;
 (async () => {

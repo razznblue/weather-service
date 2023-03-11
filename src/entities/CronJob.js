@@ -10,6 +10,7 @@ class CronJob {
   trigger() {
     this.job.start();
   }
+  
   stopJob() {
     this.job.stop();
   }
