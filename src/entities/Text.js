@@ -21,7 +21,8 @@ class Text {
       sid: this.sid,
       price: this.price,
       error: this.error,
-      mediaUrl: this.mediaUrl
+      mediaUrl: this.mediaUrl,
+      conditionCodeId: this.conditionCodeId
     });
     const savedText = await text.save();
     console.log(savedText);
@@ -49,6 +50,10 @@ class Text {
 
   setMediaUrl(mediaUrl) {
     this.mediaUrl = mediaUrl;
+  }
+
+  setConditionCodeId(id) {
+    this.conditionCodeId = id;
   }
 
 }
