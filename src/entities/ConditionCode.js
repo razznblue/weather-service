@@ -29,8 +29,6 @@ class ConditionCode {
     this.iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
   }
 
-  
-
 }
 
 export default ConditionCode;

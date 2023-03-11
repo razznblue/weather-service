@@ -23,7 +23,6 @@ class SMSManager {
     const text = new Text(this.twilioTestPhoneNumber, recipient, textType, msg);
     const conditionCode = await getConditionCode(openWeatherId);
     const mediaUrl = conditionCode.iconUrl ? conditionCode.iconUrl : [];
-    console.log(`mediaUrl: ${mediaUrl}`);
 
     try {
       const message = await this.smsClient.messages.create({
