@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const collectionName = "ConditionCode";
-
 const conditionCodeSchema = new mongoose.Schema (
   {
     openWeatherId: {

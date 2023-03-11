@@ -1,5 +1,6 @@
 import CronJobInterval from "../../entities/CronJobInterval.js";
 
+
 const CronJobIntervals = {
   EVERY_MINUTE: new CronJobInterval('EVERY_MINUTE', '* * * * *'),
   EVERY_FIVE_MINUTES: new CronJobInterval('EVERY_FIVE_MINUTES', '*/5 * * * *'),

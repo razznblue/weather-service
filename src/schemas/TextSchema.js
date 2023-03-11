@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const collectionName = "Texts";
-
 const textSchema = new mongoose.Schema (
   {
     sender: {

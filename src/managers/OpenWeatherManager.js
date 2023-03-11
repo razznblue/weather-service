@@ -28,7 +28,6 @@ class OpenWeatherManager {
     // Save ConditionCode(s) in DB
     for (const obj of weathers) {
       if (obj.id && obj.main && obj.description && obj.icon) {
-        console.log('saving condition code');
         const conditionCode = new ConditionCode(obj.id, obj.main, obj.description, obj.icon);
         await conditionCode.save();
       }

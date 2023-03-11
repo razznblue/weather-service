@@ -1,5 +1,6 @@
 import TextSchema from "../schemas/TextSchema.js";
 
+
 class Text {
   constructor(sender, recipient, textType, message, timeSent) {
     this.sender = sender;
@@ -8,9 +9,6 @@ class Text {
     this.message = message;
   }
 
-  /**
-   * Save a Text Document to the Database to log a history of SMS Messages Sent
-   */
   async save() {
     const text = new TextSchema({
       sender: this.sender,
@@ -24,6 +22,7 @@ class Text {
       mediaUrl: this.mediaUrl,
       conditionCodeId: this.conditionCodeId
     });
+
     const savedText = await text.save();
     console.log(savedText);
   }
