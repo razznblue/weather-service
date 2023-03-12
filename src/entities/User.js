@@ -15,7 +15,7 @@ class User {
   }
 
   // Returns true if user was created, false otherwise
-  async register() {
+  async register(res) {
     const exists = await UserSchema.exists({ username: this.username });
     if (!exists) {
       console.debug('creating new User');
@@ -32,15 +32,13 @@ class User {
         for (const subscription of this.subscriptions) {
           user.subscriptions.push(subscription);
         }
-        await user.save();
-        return true;
+        return await user.save();
       } catch (err) {
         console.error(err);
-        return false;
+        return this.renderRegister(res, 'Unknown Error Occurred')
       }
     }
-    console.log('User Already Exists');
-    return false;
+    return this.renderRegister(res, 'Username already exists');
   }
 
   formatSubscriptions(subs) {
@@ -53,9 +51,13 @@ class User {
     if (weatherAlerts) {
       subscriptions.push(UserSubscription.WeatherAlert);
     }
-    console.log('created subscriptions');
-    console.log(subscriptions);
     return subscriptions;
+  }
+
+  renderRegister(res, msg) {
+    return res.render('register', {
+      username: this.username, email: this.email, phone: this.phone, alert: [{ msg: msg }]
+    })
   }
 
 }
