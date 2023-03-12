@@ -6,6 +6,9 @@ import AlertsManager from '../managers/AlertsManager.js';
 import HealthCheckManager from '../managers/HealthCheckManager.js';
 import OpenWeatherManager from '../managers/OpenWeatherManager.js';
 
+import auth from './authRouter.js';
+
+
 const router = express.Router();
 
 const alertsManager = new AlertsManager();
@@ -13,6 +16,7 @@ const openWeatherManager = new OpenWeatherManager();
 
 const accessToken = process.env.ACCESS_TOKEN;
 
+router.use('/auth', auth);
 
 // Routes
 router.get(['/', '/health'], (req, res) => {
@@ -50,6 +54,11 @@ router.get('/weather', async (req, res) => {
 router.get('/forecast', async(req, res) => {
   const data = await openWeatherManager.fetchFiveDayWeather();
   res.send(data);
+})
+
+
+router.get('/profile', (req, res) => {
+  res.render('profile');
 })
 
 const authenticate = (req) => {

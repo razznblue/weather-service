@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+  <article class="card">
+
+    <article class="grid gap-big">
+      <div class="title">
+        WeatherService | Username's Profile
+        <p>View and manage your account settings and current subscriptions</p>
+      </div>
+    </article>
+
+    <article class="grid gap-big">
+
+
+      <div class="title">Account Information</div>
+      <fieldset>
+        <label>Username</label>
+        <input type="text" placeholder="Pulled From DB">
+      </fieldset>
+      <fieldset>
+        <label>Email</label>
+        <input type="text" placeholder="Pulled From DB if exists">
+      </fieldset>
+      <fieldset>
+        <label>Phone Number - the number that alerts will be sent to</label>
+        <input type="text" placeholder="Pulled From DB">
+      </fieldset>
+      
+      <div class="title">My Subscriptions</div>
+      <fieldset>
+        <div class="checkbox">
+          <input type="checkbox" class="switch" id="b1" checked>
+          <label for="b1">Daily Weather Report Texts</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <div class="checkbox">
+          <input type="checkbox" class="switch" id="b1" checked>
+          <label for="b1">Severe Weather Alert Texts</label>
+        </div>
+      </fieldset>
+      <p>Once you have made your changes here, click SAVE to update your information, including any subscription changes.</p>
+
+      <button id="save-btn">SAVE</button>        
+
+    </article>
+
+    </div>
+</body>
+</html>
