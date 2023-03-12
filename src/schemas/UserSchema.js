@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+const collectionName = "Users";
 const userSchema = new mongoose.Schema (
   {
     username: {
@@ -9,7 +10,7 @@ const userSchema = new mongoose.Schema (
     email: {
       type: String,
     },
-    phone_number: {
+    phoneNumber: {
       type: String,
       required: true
     },
@@ -21,12 +22,11 @@ const userSchema = new mongoose.Schema (
       required: true
     },
     subscriptions: {
-      // Allowed Strings: 'daily-weather', 'weather-alerts'
       type: [{ type: String }]
     }
-  }, { timestamps: true, versionKey: false }
+  }, { timestamps: true, versionKey: false, collection: collectionName }
 );
 
-const UserSchema = mongoose.model('User', userSchema);
+const UserSchema = mongoose.model(collectionName, userSchema);
  
 export default UserSchema;

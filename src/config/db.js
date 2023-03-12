@@ -9,7 +9,7 @@ const connectToDB = () => {
     useUnifiedTopology: true,
   }).then(() => {
     console.log("Connected to DB"); 
-  }, err => { console.log(err) });
+  }).catch(err => console.log(`Could not connect to DB \n${err}`));
 }
 
 const getMongoUri = () => {
