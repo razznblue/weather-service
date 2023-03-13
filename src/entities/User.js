@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 
 import UserSchema from "../schemas/UserSchema.js";
 import UserSubscription from '../enums/UserSubscription.js';
+import { hashPassword, renderResponse } from '../helpers/UserHelper.js';
 
 
 class User {
@@ -35,10 +36,10 @@ class User {
         return await user.save();
       } catch (err) {
         console.error(err);
-        return this.renderRegister(res, 'Unknown Error Occurred')
+        return this.renderResponse(res, 'register', 'Unknown Error Occurred', this)
       }
     }
-    return this.renderRegister(res, 'Username already exists');
+    return this.renderResponse(res, 'register', 'Username already exists');
   }
 
   formatSubscriptions(subs) {
@@ -54,20 +55,6 @@ class User {
     return subscriptions;
   }
 
-  renderRegister(res, msg) {
-    return res.render('register', {
-      username: this.username, email: this.email, phone: this.phone, alert: [{ msg: msg }]
-    })
-  }
-
-}
-
-const hashPassword = async (pass, saltRounds) => {
-  return await bcrypt.hash(pass, saltRounds);
-}
-
-const comparePassword = async (plaintextPassword, hash) => {
-  return await bcrypt.compare(plaintextPassword, hash);
 }
 
 export default User;

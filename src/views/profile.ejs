@@ -5,54 +5,81 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
   <link rel="stylesheet" href="css/profile.css">
 </head>
-<body>
-  <article class="card">
+<body id="body-pd">
 
+  <!-- Navigation -->
+  <header class="header" id="header">
+    <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+    <div class="header_img"> <img src="https://swgu-library.onrender.com/images/BACKGROUNDS/weather-service-logo-1.png" alt=""> </div>
+  </header>
+  <div class="l-navbar" id="nav-bar">
+      <nav class="nav">
+          <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">Weather-Service</span> </a>
+              <div class="nav_list"> 
+                  <a href="#" class="nav_link active"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span> </a> 
+                  <a href="#" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Profile</span> </a> 
+                  <!-- <a href="#" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span> </a> 
+                  <a href="#" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Bookmark</span> </a> 
+                  <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a>  -->
+                  <!-- <a href="#" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Sign Out</span> </a>  -->
+              </div>
+          </div> <a href="<%= logoutPath %>" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Sign Out</span> </a>
+      </nav>
+  </div>
+
+  <article class="card">
     <article class="grid gap-big">
       <div class="title">
-        WeatherService | Username's Profile
+        WeatherService | <%= username !== undefined && username !== null ? `${username}'s profile` : '' %>
         <p>View and manage your account settings and current subscriptions</p>
       </div>
     </article>
 
     <article class="grid gap-big">
-
-
       <div class="title">Account Information</div>
       <fieldset>
         <label>Username</label>
-        <input type="text" placeholder="Pulled From DB">
+        <input name="username" type="text" value="<%= username %>">
+      </fieldset>
+      <fieldset>
+        <label>Password</label>
+        <input name="password" type="password" placeholder="New password here. Don't forget to click Save!">
       </fieldset>
       <fieldset>
         <label>Email</label>
-        <input type="text" placeholder="Pulled From DB if exists">
+        <input name="email" type="text" value="<%= email %>">
       </fieldset>
       <fieldset>
-        <label>Phone Number - the number that alerts will be sent to</label>
-        <input type="text" placeholder="Pulled From DB">
+        <label>Phone Number - alerts send to this number</label>
+        <input name="phone" id="phone" type="tel" value="<%= phone %>">
       </fieldset>
       
       <div class="title">My Subscriptions</div>
       <fieldset>
         <div class="checkbox">
-          <input type="checkbox" class="switch" id="b1" checked>
+          <input type="checkbox" class="switch" id="b1" <%= dailyWeather ? "checked" : "" %>> 
           <label for="b1">Daily Weather Report Texts</label>
         </div>
       </fieldset>
       <fieldset>
         <div class="checkbox">
-          <input type="checkbox" class="switch" id="b1" checked>
+          <input type="checkbox" class="switch" id="b1" <%= weatherAlerts ? "checked" : "" %>>
           <label for="b1">Severe Weather Alert Texts</label>
         </div>
       </fieldset>
       <p>Once you have made your changes here, click SAVE to update your information, including any subscription changes.</p>
 
       <button id="save-btn">SAVE</button>        
-
     </article>
+  </article>
 
-    </div>
+  <script src="../js/profile.js"></script>
+  <script src="../js/phoneFormat.js"></script>
 </body>
 </html>

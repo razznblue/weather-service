@@ -7,6 +7,8 @@ import HealthCheckManager from '../managers/HealthCheckManager.js';
 import OpenWeatherManager from '../managers/OpenWeatherManager.js';
 
 import auth from './authRouter.js';
+import profile from './profileRouter.js';
+import sessionAuth from '../config/auth.js';
 
 
 const router = express.Router();
@@ -17,9 +19,12 @@ const openWeatherManager = new OpenWeatherManager();
 const accessToken = process.env.ACCESS_TOKEN;
 
 router.use('/auth', auth);
+router.use('/profile', sessionAuth, profile);
 
 // Routes
-router.get(['/', '/health'], (req, res) => {
+router.get('/', (req, res) => res.redirect('/auth/login'));
+
+router.get('/health', (req, res) => {
   const healthCheckManager = new HealthCheckManager();
   let healthStatus;
   try {
@@ -56,10 +61,6 @@ router.get('/forecast', async(req, res) => {
   res.send(data);
 })
 
-
-router.get('/profile', (req, res) => {
-  res.render('profile');
-})
 
 const authenticate = (req) => {
   return req.query.token === accessToken ? true : false;

@@ -29,7 +29,7 @@ export const validateLoginForm = () => {
       .isLength({ min: 4 })
       .withMessage('username must be at least 4 chars long')
       .isLength({ max: 16 })
-      .withMessage(' username must be less than 12 chars long')
+      .withMessage('username must be less than 12 chars long')
       .exists()
       .withMessage('username is required')
       .trim()

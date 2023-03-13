@@ -1,7 +1,7 @@
 const Constants = {
   URL: {
     BASE_URL: "https://weather-service-nnlr.onrender.com",
-    LOCAL_HOST: "http://localhost:3000",
+    LOCAL_HOST: "http://localhost:3001",
     KMBC_ALERTS_URL: "https://www.kmbc.com/alerts",
     KMBC_WEATHER_URL: "https://www.kmbc.com/weather"
   },
