@@ -1,10 +1,10 @@
 import twilio from 'twilio';
 import dotenv from 'dotenv';
+dotenv.config();
 
 import Text from '../entities/Text.js';
 import { getConditionCode } from '../helpers/ConditionCodeHelper.js';
 
-dotenv.config();
 
 
 class SMSManager {
