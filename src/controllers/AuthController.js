@@ -7,11 +7,9 @@ import User from "../entities/User.js";
 import UserSchema from "../schemas/UserSchema.js";
 import { comparePassword, renderResponse } from "../helpers/UserHelper.js";
 import Constants from "../constants/constants.js";
-const baseUrl = process.env.NODE_ENV === 'production' 
-  ? Constants.URL.BASE_URL : Constants.URL.LOCAL_HOST;
 
 
-const sessions = {};
+const baseUrl = Constants.BASE_URL;
 const LOGIN = 'login';
 const REGISTER = 'register';
 

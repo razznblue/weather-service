@@ -7,12 +7,6 @@ export const renderResponse = (res, page, msg, user) => {
   })
 }
 
-// export const renderResponseWithDetails = (res, page, msg, data) => {
-//   return res.render(page, {
-//     username: this.username, email: this.email, phone: this.phone, alert: [{ msg: msg }]
-//   })
-// }
-
 export const hashPassword = async (pass, saltRounds) => {
   return await bcrypt.hash(pass, saltRounds);
 }

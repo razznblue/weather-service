@@ -1,13 +1,16 @@
+import { validationResult } from "express-validator";
+
 import UserSchema from "../schemas/UserSchema.js";
-import Constants from "../constants/constants.js";
+import { verifyUser, formatPhoneForProfile, subscribedTo, buildLogOutPath } from "../helpers/ProfileHelper.js";
+import { hashPassword } from "../helpers/UserHelper.js";
+
+const PROFILE = 'profile';
+const logoutPath = buildLogOutPath();
 
 export const renderProfile = async (req, res) => {
-  const userId = req.userId;
-  if (!userId) {
-    console.error('Could not verify userId on Request Object');
-  }
+  verifyUser(req, res);
 
-  const user = await UserSchema.findOne({ _id: userId });
+  const user = await UserSchema.findOne({ _id: req.userId });
   if (!user) { console.error('UserId in session does exist in DB... HOW??') };
 
   const username = user?.username;
@@ -16,9 +19,7 @@ export const renderProfile = async (req, res) => {
   const subscribedToDailyWeather = subscribedTo(user?.subscriptions, 'daily-weather');
   const subscribedToWeatherAlerts = subscribedTo(user?.subscriptions, 'weather-alert');
 
-  const logoutPath = buildLogOutPath();
-
-  res.render('profile', {
+  res.render(PROFILE, {
     username, email, phone,
     dailyWeather: subscribedToDailyWeather,
     weatherAlerts: subscribedToWeatherAlerts,
@@ -26,16 +27,65 @@ export const renderProfile = async (req, res) => {
   });
 }
 
-const formatPhoneForProfile = (phoneFromDB) => {
-  return phoneFromDB.substring(2);
-}
+export const updateProfile = async (req, res) => {
+  verifyUser(req, res);
 
-const subscribedTo = (subscriptions, service) => {
-  return subscriptions.length > 0 && subscriptions.includes(service);
-}
+  const username = req.body?.username;
+  const password = req.body?.password;
+  const email = req.body?.email;
+  const phone = req.body?.phone;
+  const dailyWeatherSubscription = req.body.dailyWeatherReports !== undefined 
+    && req.body.dailyWeatherReports === 'on' ? true : false;
+  const severeWeatherAlertsSubscription = req.body.severeWeatherAlerts !== undefined 
+    && req.body.severeWeatherAlerts === 'on' ? true : false;
+  const subscriptions = [dailyWeatherSubscription, severeWeatherAlertsSubscription];
 
-const buildLogOutPath = () => {
-  const baseUrl = process.env.NODE_ENV === 'production' 
-  ? Constants.URL.BASE_URL : Constants.URL.LOCAL_HOST;
-  return `${baseUrl}/auth/logout`;
+  // On error, return to client
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const alert = errors.array();
+    return res.render(PROFILE, {
+      username, email, phone, alert, 
+      dailyWeather: dailyWeatherSubscription,
+      weatherAlerts: severeWeatherAlertsSubscription,
+      logoutPath
+    })
+  }
+
+  const user = await UserSchema.findOne({ _id: req.userId });
+  if (!user) { console.error('UserId in session does exist in DB... HOW??') };
+
+  if (user.username !== username) {
+    user.username = username;
+  }
+  if (password) {
+    user.password = await hashPassword(password, 10);
+  }
+  if (user.email !== email) {
+    user.email = email;
+  }
+  if (user.phoneNumber !== phone) {
+    user.phoneNumber = phone;
+  }
+  if (dailyWeatherSubscription && !user.subscriptions.includes('daily-weather')) {
+    user.subscriptions.push('daily-weather');
+  } 
+  if (!dailyWeatherSubscription && user.subscriptions.includes('daily-weather')) {
+    user.subscriptions = user.subscriptions.filter(e => e !== 'daily-weather');
+  }
+  if (severeWeatherAlertsSubscription && !user.subscriptions.includes('weather-alert')) {
+    user.subscriptions.push('weather-alert');
+  }
+  if (!severeWeatherAlertsSubscription && user.subscriptions.includes('weather-alert')) {
+    user.subscriptions = user.subscriptions.filter(e => e !== 'weather-alert');
+  }
+  await user.save();
+
+  return res.render(PROFILE, {
+    username, email, phone,
+    successMsg: 'Updated your information!',
+    dailyWeather: dailyWeatherSubscription,
+    weatherAlerts: severeWeatherAlertsSubscription,
+    logoutPath
+  })
 }

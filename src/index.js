@@ -9,8 +9,7 @@ import startJobs from './jobs/jobs.js';
 import Constants from './constants/constants.js';
 
 
-const baseUrl = process.env.NODE_ENV === 'production' 
-  ? Constants.URL.BASE_URL : Constants.URL.LOCAL_HOST;
+const baseUrl = Constants.BASE_URL;
 const port = process.env.PORT || 3000;
 
 const app = express();

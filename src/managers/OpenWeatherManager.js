@@ -1,12 +1,12 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+dotenv.config();
 
 import TextType from '../enums/TextType.js';
 import SMSManager from './SMSManager.js';
 import Constants from '../constants/constants.js';
 import ConditionCode from '../entities/ConditionCode.js';
 
-dotenv.config();
 
 class OpenWeatherManager {
   constructor() {
