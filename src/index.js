@@ -18,7 +18,7 @@ setMiddleware(app);
 const EVERY_FIVE_MINUTES = 300000;
 (async () => {
   setInterval(async () => {
-    const res = await axios.get(baseUrl);
+    const res = await axios.get(`${baseUrl}/health`);
     console.log(`App Ping - ${baseUrl}. Status: ${res.data.message}`);
   }, EVERY_FIVE_MINUTES);
 })();

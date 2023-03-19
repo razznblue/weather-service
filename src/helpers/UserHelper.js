@@ -7,6 +7,10 @@ export const renderResponse = (res, page, msg, user) => {
   })
 }
 
+export const formatPhone = (phone) => {
+  return `+1${phone.match(/\d/g).join("")}`
+}
+
 export const hashPassword = async (pass, saltRounds) => {
   return await bcrypt.hash(pass, saltRounds);
 }

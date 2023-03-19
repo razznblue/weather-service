@@ -5,7 +5,7 @@ dotenv.config();
 
 import User from "../entities/User.js";
 import UserSchema from "../schemas/UserSchema.js";
-import { comparePassword, renderResponse } from "../helpers/UserHelper.js";
+import { comparePassword, renderResponse, formatPhone } from "../helpers/UserHelper.js";
 import Constants from "../constants/constants.js";
 
 
@@ -85,12 +85,4 @@ export const logout = (req, res) => {
   res.render(LOGIN, {
     successMsg: 'You are logged out'
   });
-}
-
-
-
-
-// HELPERS
-const formatPhone = (googlePhone) => {
-  return `+1${googlePhone.match(/\d/g).join("")}`
 }

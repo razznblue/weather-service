@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 
 import UserSchema from "../schemas/UserSchema.js";
 import { verifyUser, formatPhoneForProfile, subscribedTo, buildLogOutPath } from "../helpers/ProfileHelper.js";
-import { hashPassword } from "../helpers/UserHelper.js";
+import { hashPassword, formatPhone } from "../helpers/UserHelper.js";
 
 const PROFILE = 'profile';
 const logoutPath = buildLogOutPath();
@@ -65,7 +65,7 @@ export const updateProfile = async (req, res) => {
     user.email = email;
   }
   if (user.phoneNumber !== phone) {
-    user.phoneNumber = phone;
+    user.phoneNumber = formatPhone(phone);
   }
   if (dailyWeatherSubscription && !user.subscriptions.includes('daily-weather')) {
     user.subscriptions.push('daily-weather');
