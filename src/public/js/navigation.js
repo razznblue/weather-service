@@ -1,8 +1,3 @@
-const sendUpdateProfileData = async () => {
-  const url = "http"
-}
-
-
 document.addEventListener("DOMContentLoaded", function(event) {
    
   const showNavbar = (toggleId, navId, bodyId, headerId) =>{

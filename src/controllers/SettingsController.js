@@ -5,5 +5,7 @@ const SETTINGS = 'settings';
 const logoutPath = buildLogOutPath();
 
 export const renderSettings = async (req, res) => {
-  res.render(SETTINGS);
+  res.render(SETTINGS, {
+    logoutPath
+  });
 }
