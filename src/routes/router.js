@@ -6,9 +6,10 @@ import AlertsManager from '../managers/AlertsManager.js';
 import HealthCheckManager from '../managers/HealthCheckManager.js';
 import OpenWeatherManager from '../managers/OpenWeatherManager.js';
 
+import sessionAuth from '../config/auth.js';
 import auth from './authRouter.js';
 import profile from './profileRouter.js';
-import sessionAuth from '../config/auth.js';
+import settings from './settingsRouter.js';
 
 
 const router = express.Router();
@@ -20,6 +21,7 @@ const accessToken = process.env.ACCESS_TOKEN;
 
 router.use('/auth', auth);
 router.use('/profile', sessionAuth, profile);
+router.use('/settings', sessionAuth, settings);
 
 // Routes
 router.get('/', (req, res) => res.redirect('/auth/login'));
