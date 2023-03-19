@@ -22,78 +22,77 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputEmail4">Default City</label>
-        <input type="email" class="form-control" id="inputEmail4" placeholder="Default City">
+        <input type="email" class="form-control" id="inputDefaultCity" placeholder="Default City">
       </div>
       <div class="form-group col-md-6">
-        <label for="inputPassword4">Default Zip Code</label>
-        <input type="password" class="form-control" id="inputPassword4" placeholder="Default Zip Code">
+        <label for="inputPassword4">Secondary City</label>
+        <input type="password" class="form-control" id="inputSecondaryCity" placeholder="Secondary City">
       </div>
-    </div>
-    <div class="form-group">
-      <label for="inputAddress">Address</label>
-      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Address 2</label>
-      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputCity">City</label>
-        <input type="text" class="form-control" id="inputCity">
+        <label for="inputEmail4">Default Zip Code</label>
+        <input type="text" class="form-control" id="inputDefaultZipCode" placeholder="Default City">
       </div>
-      <div class="form-group col-md-4">
-        <label for="inputState">State</label>
-        <select id="inputState" class="form-control">
-          <option selected>Choose...</option>
-          <option>...</option>
-        </select>
-      </div>
-      <div class="form-group col-md-2">
-        <label for="inputZip">Zip</label>
-        <input type="text" class="form-control" id="inputZip">
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Secondary Zip Code</label>
+        <input type="text" class="form-control" id="inputSecondaryZipCode" placeholder="Secondary Zip Code">
       </div>
     </div>
+
+    <div class="form-row">
+
+    </div>
+
     <div class="form-group">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="gridCheck">
         <label class="form-check-label" for="gridCheck">
-          Check me out
+          Receive icons with text alerts
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          Receive links with text alerts
         </label>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-primary">Save</button>
   </form>
 
   <form id="settings-form">
     <h3>DANGER ZONE</h3>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="inputEmail4">Default City</label>
-        <input type="email" class="form-control" id="inputEmail4" placeholder="Default City">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="inputPassword4">Default Zip Code</label>
-        <input type="password" class="form-control" id="inputPassword4" placeholder="Default Zip Code">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputAddress">Address</label>
-      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-    </div>
-    <div class="form-group">
-      <label for="inputAddress2">Address 2</label>
-      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-    </div>
     <div class="form-group">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="gridCheck">
         <label class="form-check-label" for="gridCheck">
-          Check me out
+          TEMPORARILY DISABLE ALL alerts
         </label>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="exampleFormControlSelect1">Length(in Days) of Alerts Suspension</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option selected>Until I Reactivate</option>
+          <option>1</option>
+          <option>7</option>
+          <option>14</option>
+          <option>365</option>
+        </select>
+      </div>
+    </div>
+    ______________________________________
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          PERMANENTLY DELETE my account
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 
   <script src="../js/navigation.js"></script>
