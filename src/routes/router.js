@@ -6,7 +6,7 @@ import AlertsManager from '../managers/AlertsManager.js';
 import HealthCheckManager from '../managers/HealthCheckManager.js';
 import OpenWeatherManager from '../managers/OpenWeatherManager.js';
 
-import sessionAuth from '../config/auth.js';
+import { sessionAuth } from '../config/auth.js';
 import auth from './authRouter.js';
 import profile from './profileRouter.js';
 import settings from './settingsRouter.js';

@@ -7,11 +7,12 @@ import User from "../entities/User.js";
 import UserSchema from "../schemas/UserSchema.js";
 import { comparePassword, renderResponse, formatPhone } from "../helpers/UserHelper.js";
 import Constants from "../constants/constants.js";
+import { userIsLoggedIn } from "../config/auth.js";
 
 
 const baseUrl = Constants.BASE_URL;
 const LOGIN = 'login';
-const REGISTER = 'register';
+const REGISTER = 'register'
 
 export const registerUser = async (req, res) => {
   const username = req.body.username;
@@ -79,6 +80,20 @@ export const loginUser = async (req, res) => {
   }
 }
 
+
+export const renderLogin = (req, res)=> {
+  if (userIsLoggedIn(req)) {
+    return res.redirect(`${baseUrl}/profile`);
+  }
+  return res.render(LOGIN)
+}
+
+export const renderRegister = (req, res)=> {
+  if (userIsLoggedIn(req)) {
+    return res.redirect(`${baseUrl}/profile`);
+  }
+  return res.render(REGISTER)
+}
 
 export const logout = (req, res) => {
   res.clearCookie('session_token');
