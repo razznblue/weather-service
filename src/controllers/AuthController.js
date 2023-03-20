@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import User from "../entities/User.js";
+import UserSettings from "../entities/UserSettings.js";
 import UserSchema from "../schemas/UserSchema.js";
 import { comparePassword, renderResponse, formatPhone } from "../helpers/UserHelper.js";
 import Constants from "../constants/constants.js";
@@ -37,6 +38,11 @@ export const registerUser = async (req, res) => {
   // Assume no errors, so save the user in DB
   const user = new User(username, password, email, formatPhone(phone), subscriptions);
   await user.register(res);
+
+  // Create the UserSettings document
+  const userId = await user.getId();
+  const userSettings = new UserSettings(userId);
+  await userSettings.createEmpty();
 
   // Return Success Msg
   return res.render(REGISTER, {

@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import UserSchema from "../schemas/UserSchema.js";
 import UserSubscription from '../enums/UserSubscription.js';
 import { hashPassword, renderResponse } from '../helpers/UserHelper.js';
+import { getConditionCode } from '../helpers/ConditionCodeHelper.js';
 
 
 class User {
@@ -36,10 +37,21 @@ class User {
         return await user.save();
       } catch (err) {
         console.error(err);
-        return this.renderResponse(res, 'register', 'Unknown Error Occurred', this)
+        return renderResponse(res, 'register', 'Unknown Error Occurred', this)
       }
     }
-    return this.renderResponse(res, 'register', 'Username already exists');
+    return renderResponse(res, 'register', 'Username already exists');
+  }
+
+  async getId() {
+    try {
+      const user = await UserSchema.findOne({ username: this.username });
+      if (user) {
+        return user._id;
+      }
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   formatSubscriptions(subs) {
