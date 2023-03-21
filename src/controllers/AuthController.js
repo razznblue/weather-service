@@ -71,8 +71,9 @@ export const loginUser = async (req, res) => {
     if (authenticated) {
       const sessionToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
       res.cookie("session_token", sessionToken, {
+        maxAge: 900000,
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === 'production'
       })
 
       return res.redirect(`${baseUrl}/profile`);
