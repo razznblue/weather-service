@@ -1,3 +1,5 @@
+import { validationResult } from "express-validator";
+
 import UserSettings from "../entities/UserSettings.js";
 import { verifyUser, buildLogOutPath } from "../helpers/ProfileHelper.js";
 
@@ -13,6 +15,14 @@ export const renderSettings = async (req, res) => {
 
 export const updateSettings = async (req, res) => {
   verifyUser(req, res);
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const alert = errors.array();
+    return res.render(SETTINGS, {
+      alert, logoutPath
+    })
+  }
 
   const updateMap = getFieldSettingsToUpdate(req);
 

@@ -61,3 +61,16 @@ export const validateProfileUpdate = () => {
     body('email').isEmail().normalizeEmail().withMessage('Invalid Email').exists(),
   ];
 }
+
+export const validateSettingsUpdate = () => {
+  return [
+    body(['defaultZipCode', 'secondaryZipCode'])
+      .isPostalCode('any')
+      .withMessage('Invalid Zip Code Found')
+      .optional({ checkFalsy: true }),
+    body(['defaultCity', 'secondaryCity']).custom(value => {
+      // TODO After implementing City API and store in DB, will be ready to validate here
+      return true;
+    }).withMessage('Invalid City Name').optional({ checkFalsy: true })
+  ];
+}
