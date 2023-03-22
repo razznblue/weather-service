@@ -21,7 +21,7 @@ const openWeatherManager = new OpenWeatherManager();
 const accessToken = process.env.ACCESS_TOKEN;
 
 router.use('/auth', auth);
-router.use('/jobs', jobs);
+router.use('/jobs', sessionAuth, jobs);
 router.use('/profile', sessionAuth, profile);
 router.use('/settings', sessionAuth, settings);
 

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import CityModel from '../models/CityModel.js';
+import { isAdmin } from '../helpers/UserHelper.js';
 
 
 const jobs = express.Router();
@@ -15,8 +16,7 @@ const accessToken = process.env.ACCESS_TOKEN;
   3) Setting up for another class to fill other information on the mongo doc.
 */
 jobs.get('/cities', async (req, res) => {
-  return res.send('Job Temporarily Suspended');
-  if (authenticate) {
+  if (await isAdmin(req.userId)) {
     const url = "https://raw.githubusercontent.com/manifestinteractive/openweathermap-cities/master/data/owm_city_list.json";
 
     const response = await axios.get(url);
@@ -44,7 +44,8 @@ jobs.get('/cities', async (req, res) => {
 
     console.log('Finished creating all cities');
     console.log(`erroredCities: \n${erroredCities}`);
-
+  } else {
+    res.status(403).send('Forbidden Request');
   }
 });
 
