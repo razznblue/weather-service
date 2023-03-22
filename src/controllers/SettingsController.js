@@ -17,20 +17,26 @@ export const updateSettings = async (req, res) => {
   verifyUser(req, res);
 
   const errors = validationResult(req);
-  console.log(JSON.stringify(errors));
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    console.log('errors: ' + alert);
-    return res.render(SETTINGS, {
-      alert, logoutPath
-    })
+    const returnData = {
+      defaultCity: req.body.defaultCity,
+      secondaryCity: req.body.secondaryCity,
+      defaultZipCode: req.body.defaultZipCode,
+      secondaryZipCode: req.body.secondaryZipCode,
+      receiveIconsWithTexts: !req.body.receiveIconsWithTexts ? false : true,
+      receiveLinksWithTexts: !req.body.receiveLinksWithTexts ? false : true,
+      alert,
+      logoutPath
+    };
+    return res.render(SETTINGS, returnData);
   }
 
   const updateMap = getFieldSettingsToUpdate(req);
 
   const userSettings = new UserSettings(req.userId);
   await userSettings.init();
-  await userSettings.updateUserSettings(updateMap, res);
+  await userSettings.updateUserSettings(updateMap, req, res);
   return updateMap;
 }
 

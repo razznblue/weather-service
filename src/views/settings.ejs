@@ -18,12 +18,14 @@
   <%- include('partials/nav.ejs') %>
 
   <% if (typeof alert !== 'undefined') { %>
-    <% alert.forEach((error) => { %>
-      <div style="position:absolute;top:5rem;left:60rem;" class="alert alert-warning alert-dismissible fade show" role="alert">
-        <%= error.msg %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% }) %>
+    <div style="position:absolute;top:5rem;left:60rem;" class="alerts-box">
+      <% alert.forEach((error) => { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= error.msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% }) %>
+    </div>
   <% } %>
 
   <% if (typeof successMsg !== 'undefined') { %>
@@ -37,21 +39,21 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputEmail4">Default City</label>
-        <input name="defaultCity" type="text" class="form-control" id="inputDefaultCity" placeholder="Default City">
+        <input name="defaultCity" type="text" class="form-control" id="inputDefaultCity" placeholder="Default City" value="<%= typeof defaultCity !== 'undefined' ? defaultCity : '' %>">
       </div>
       <div class="form-group col-md-6">
         <label for="inputPassword4">Secondary City</label>
-        <input name="secondaryCity" type="text" class="form-control" id="inputSecondaryCity" placeholder="Secondary City">
+        <input name="secondaryCity" type="text" class="form-control" id="inputSecondaryCity" placeholder="Secondary City" value="<%= typeof secondaryCity !== 'undefined' ? secondaryCity : '' %>">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputDefaultZipCode">Default Zip Code</label>
-        <input name="defaultZipCode" type="text" class="form-control" id="inputDefaultZipCode" placeholder="Default City">
+        <input name="defaultZipCode" type="text" class="form-control" id="inputDefaultZipCode" placeholder="Default City" value="<%= typeof defaultZipCode !== 'undefined' ? defaultZipCode : '' %>">
       </div>
       <div class="form-group col-md-6">
         <label for="inputSecondaryZipCode">Secondary Zip Code</label>
-        <input name="secondaryZipCode" type="text" class="form-control" id="inputSecondaryZipCode" placeholder="Secondary Zip Code">
+        <input name="secondaryZipCode" type="text" class="form-control" id="inputSecondaryZipCode" placeholder="Secondary Zip Code" value="<%= typeof secondaryZipCode !== 'undefined' ? secondaryZipCode : '' %>">
       </div>
     </div>
 
@@ -61,13 +63,13 @@
 
     <div class="form-group">
       <div class="form-check">
-        <input name="receiveIconsWithTexts" class="form-check-input" type="checkbox" id="receiveIconsWithTexts">
+        <input name="receiveIconsWithTexts" class="form-check-input" type="checkbox" id="receiveIconsWithTexts" <%= receiveIconsWithTexts ? "checked" : "" %>>
         <label class="form-check-label" for="receiveIconsWithTexts">
           Receive icons with text alerts
         </label>
       </div>
       <div class="form-check">
-        <input name="receiveLinksWithTexts" class="form-check-input" type="checkbox" id="receiveLinksWithTexts">
+        <input name="receiveLinksWithTexts" class="form-check-input" type="checkbox" id="receiveLinksWithTexts" <%= receiveLinksWithTexts ? "checked" : "" %>>
         <label class="form-check-label" for="receiveLinksWithTexts">
           Receive links with text alerts
         </label>

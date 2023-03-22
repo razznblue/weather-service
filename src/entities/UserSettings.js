@@ -26,7 +26,7 @@ class UserSettings {
     }
   }
 
-  async updateUserSettings(updateMap, res) {
+  async updateUserSettings(updateMap, req, res) {
     const userId = this.userId;
     const userSettings = await UserSettingsSchema.findOne({ userId: userId });
     if (userSettings) {
@@ -37,11 +37,17 @@ class UserSettings {
           userSettings[keys[i]] = values[i];
         }
         await userSettings.save();
-        console.log(`Updated UserSettings \n${userSettings}`);
-        return res.render('settings', {
+        const returnData = {
+          defaultCity: req.body.defaultCity,
+          secondaryCity: req.body.secondaryCity,
+          defaultZipCode: req.body.defaultZipCode,
+          secondaryZipCode: req.body.secondaryZipCode,
+          receiveIconsWithTexts: !req.body.receiveIconsWithTexts ? false : true,
+          receiveLinksWithTexts: !req.body.receiveLinksWithTexts ? false : true,
           successMsg: 'Updated your settings!',
           logoutPath: buildLogOutPath()
-        });
+        };
+        return res.render('settings', returnData);
       } catch(err) {
         console.log(err);
       }
