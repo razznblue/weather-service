@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import UserSchema from "../schemas/UserSchema.js";
 import UserSubscription from '../enums/UserSubscription.js';
 import { hashPassword, renderResponse } from '../helpers/UserHelper.js';
-import { getConditionCode } from '../helpers/ConditionCodeHelper.js';
 
 
 class User {

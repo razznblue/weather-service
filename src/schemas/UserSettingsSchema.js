@@ -10,8 +10,8 @@ const userSettingsSchema = new mongoose.Schema (
     secondaryCity: { type: String },
     defaultZipCode: { type: String },
     secondaryZipCode: { type: String },
-    receiveIconsWithTextAlerts: { type: Boolean },
-    receiveLinksWithTextAlerts: { type: Boolean },
+    receiveIconsWithTexts: { type: Boolean },
+    receiveLinksWithTexts: { type: Boolean },
   }, { timestamps: true, versionKey: false, collection: collectionName }
 );
 

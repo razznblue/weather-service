@@ -42,7 +42,7 @@ export const registerUser = async (req, res) => {
   // Create the UserSettings document
   const userId = await user.getId();
   const userSettings = new UserSettings(userId);
-  await userSettings.createEmpty();
+  await userSettings.init();
 
   // Return Success Msg
   return res.render(REGISTER, {
@@ -71,7 +71,7 @@ export const loginUser = async (req, res) => {
     if (authenticated) {
       const sessionToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
       res.cookie("session_token", sessionToken, {
-        maxAge: 900000,
+        maxAge: 90000000,
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production'
       })
