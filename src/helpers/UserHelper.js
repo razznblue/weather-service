@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
 
+import UserModel from '../models/UserModel.js';
+
 
 export const renderResponse = (res, page, msg, user) => {
   return res.render(page, {
@@ -17,4 +19,10 @@ export const hashPassword = async (pass, saltRounds) => {
 
 export const comparePassword = async (plaintextPassword, hash) => {
   return await bcrypt.compare(plaintextPassword, hash);
+}
+
+export const isAdmin = async (userId) => {
+  if (!userId) return false;
+  const user = await UserModel.findOne({_id: userId});
+  return user && user.isAdmin;
 }

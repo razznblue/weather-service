@@ -1,4 +1,4 @@
-import TextSchema from "../schemas/TextSchema.js";
+import TextModel from "../models/TextModel.js";
 
 
 class Text {
@@ -10,7 +10,7 @@ class Text {
   }
 
   async save() {
-    const text = new TextSchema({
+    const text = new TextModel({
       sender: this.sender,
       recipient: this.recipient,
       textType: this.textType,

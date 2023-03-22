@@ -17,7 +17,13 @@ const Constants = {
   },
   MESSAGES: {
     NO_ALERTS_FOUND: 'No Severe Weather Alerts Found',
-    ALERT_DETECTED: 'SEVER WEATHER ALERT DETECTED'
+    ALERT_DETECTED: 'SEVERE WEATHER ALERT DETECTED'
+  },
+  VIEWS: {
+    LOGIN: 'login',
+    REGISTER: 'register',
+    PROFILE: 'profile',
+    SETTINGS: 'settings'
   }
 }
 

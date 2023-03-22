@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  <link rel="stylesheet" href="/css/navigation.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/settings.css">
+</head>
+<body id="body-pd">
+
+  <!-- Navigation -->
+  <%- include('partials/nav.ejs') %>
+
+  <% if (typeof alert !== 'undefined') { %>
+    <div style="position:absolute;top:5rem;left:60rem;" class="alerts-box">
+      <% alert.forEach((error) => { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= error.msg %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <% if (typeof successMsg !== 'undefined') { %>
+    <div style="position:absolute;top:3rem;right:55rem" class="alert alert-success" role="alert">
+      <%= successMsg %>
+    </div>
+  <% } %>
+
+  <form class="settings-form" id="settings-form" action="/settings/update?_method=PUT" method="POST">
+    <h3>MY SETTINGS</h3>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Default City</label>
+        <input name="defaultCity" type="text" class="form-control" id="inputDefaultCity" placeholder="Default City" value="<%= typeof defaultCity !== 'undefined' ? defaultCity : '' %>">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Secondary City</label>
+        <input name="secondaryCity" type="text" class="form-control" id="inputSecondaryCity" placeholder="Secondary City" value="<%= typeof secondaryCity !== 'undefined' ? secondaryCity : '' %>">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputDefaultZipCode">Default Zip Code</label>
+        <input name="defaultZipCode" type="text" class="form-control" id="inputDefaultZipCode" placeholder="Default City" value="<%= typeof defaultZipCode !== 'undefined' ? defaultZipCode : '' %>">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputSecondaryZipCode">Secondary Zip Code</label>
+        <input name="secondaryZipCode" type="text" class="form-control" id="inputSecondaryZipCode" placeholder="Secondary Zip Code" value="<%= typeof secondaryZipCode !== 'undefined' ? secondaryZipCode : '' %>">
+      </div>
+    </div>
+
+    <div class="form-row">
+
+    </div>
+
+    <div class="form-group">
+      <div class="form-check">
+        <input name="receiveIconsWithTexts" class="form-check-input" type="checkbox" id="receiveIconsWithTexts" <%= typeof receiveIconsWithTexts !== undefined && typeof receiveIconsWithTexts !== false ? "checked" : "" %>>
+        <label class="form-check-label" for="receiveIconsWithTexts">
+          Receive icons with text alerts
+        </label>
+      </div>
+      <div class="form-check">
+        <input name="receiveLinksWithTexts" class="form-check-input" type="checkbox" id="receiveLinksWithTexts" <%= typeof receiveLinksWithTexts !== undefined && typeof receiveLinksWithTexts !== false ? "checked" : "" %>>
+        <label class="form-check-label" for="receiveLinksWithTexts">
+          Receive links with text alerts
+        </label>
+      </div>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Save">
+  </form>
+
+  <form class="settings-form" id="danger-zone-form"">
+    <h3>DANGER ZONE</h3>
+    <!-- <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="disableAlerts">
+        <label class="form-check-label" for="disableAlerts">
+          TEMPORARILY DISABLE ALL alerts
+        </label>
+      </div>
+      <p id="disable-alerts-msg">* You currently do not have any alerts disabled</p>
+      <p><i>NOTE: You can also unsubscribe from alerts on the profile page if you wish</i></p>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="unsubscribeDays">Length(in Days) of Alerts Suspension</label>
+        <select class="form-control" id="unsubscribeDays">
+          <option selected>Until I Reactivate</option>
+          <option>1</option>
+          <option>7</option>
+          <option>14</option>
+          <option>365</option>
+        </select>
+      </div>
+    </div> -->
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="delete-account">
+        <label class="form-check-label" for="delete-account">
+          PERMANENTLY DELETE my account
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <script src="../js/navigation.js"></script>
+</body>
+</html>

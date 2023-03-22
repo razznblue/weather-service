@@ -4,14 +4,15 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import User from "../entities/User.js";
-import UserSchema from "../schemas/UserSchema.js";
+import UserSettings from "../entities/UserSettings.js";
+import UserModel from "../models/UserModel.js";
 import { comparePassword, renderResponse, formatPhone } from "../helpers/UserHelper.js";
 import Constants from "../constants/constants.js";
+import { userIsLoggedIn } from "../config/auth.js";
 
 
 const baseUrl = Constants.BASE_URL;
-const LOGIN = 'login';
-const REGISTER = 'register';
+const { VIEWS } = Constants;
 
 export const registerUser = async (req, res) => {
   const username = req.body.username;
@@ -28,7 +29,7 @@ export const registerUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    return res.render(REGISTER, {
+    return res.render(VIEWS.REGISTER, {
       username, email, phone, alert
     })
   }
@@ -37,8 +38,13 @@ export const registerUser = async (req, res) => {
   const user = new User(username, password, email, formatPhone(phone), subscriptions);
   await user.register(res);
 
+  // Create the UserSettings document
+  const userId = await user.getId();
+  const userSettings = new UserSettings(userId);
+  await userSettings.init();
+
   // Return Success Msg
-  return res.render(REGISTER, {
+  return res.render(VIEWS.REGISTER, {
     username, email, phone, successMsg: 'Registered successfully!'
   })
 }
@@ -53,36 +59,51 @@ export const loginUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    return res.render(LOGIN, {
+    return res.render(VIEWS.LOGIN, {
       username, alert
     })
   }
 
-  const user = await UserSchema.findOne({ username: username });
+  const user = await UserModel.findOne({ username: username });
   if (user) {
     const authenticated = await comparePassword(pass, user.password);
     if (authenticated) {
       const sessionToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
       res.cookie("session_token", sessionToken, {
+        maxAge: 90000000,
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV === 'production'
       })
 
       return res.redirect(`${baseUrl}/profile`);
       //const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
       //return res.header('auth_token', token).send({ token: token });
     } else {
-      renderResponse(res, LOGIN, 'Invalid password', { username });
+      renderResponse(res, VIEWS.LOGIN, 'Invalid password', { username });
     }
   } else {
-    renderResponse(res, LOGIN, 'User not found', { username });
+    renderResponse(res, VIEWS.LOGIN, 'User not found', { username });
   }
 }
 
 
+export const renderLogin = (req, res)=> {
+  if (userIsLoggedIn(req)) {
+    return res.redirect(`${baseUrl}/profile`);
+  }
+  return res.render(VIEWS.LOGIN)
+}
+
+export const renderRegister = (req, res)=> {
+  if (userIsLoggedIn(req)) {
+    return res.redirect(`${baseUrl}/profile`);
+  }
+  return res.render(VIEWS.REGISTER)
+}
+
 export const logout = (req, res) => {
   res.clearCookie('session_token');
-  res.render(LOGIN, {
+  res.render(VIEWS.LOGIN, {
     successMsg: 'You are logged out'
   });
 }

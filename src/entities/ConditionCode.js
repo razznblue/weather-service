@@ -1,4 +1,4 @@
-import ConditionCodeSchema from "../schemas/ConditionCode.js";
+import ConditionCodeModel from "../models/ConditionCodeModel.js";
 
 
 class ConditionCode {
@@ -11,10 +11,10 @@ class ConditionCode {
   }
 
   async save() {
-    const exists = await ConditionCodeSchema.exists({ openWeatherId: this.openWeatherId });
+    const exists = await ConditionCodeModel.exists({ openWeatherId: this.openWeatherId });
     if (!exists) {
 
-      const conditionCode = new ConditionCodeSchema({
+      const conditionCode = new ConditionCodeModel({
         openWeatherId: this.openWeatherId,
         main: this.main,
         textType: this.textType,

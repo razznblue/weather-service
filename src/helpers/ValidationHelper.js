@@ -1,4 +1,5 @@
 import { body } from 'express-validator';
+import CityModel from '../models/CityModel.js';
 
 export const validateRegisterForm = () => {
   return [
@@ -60,4 +61,25 @@ export const validateProfileUpdate = () => {
       .escape(),
     body('email').isEmail().normalizeEmail().withMessage('Invalid Email').exists(),
   ];
+}
+
+export const validateSettingsUpdate = async () => {
+  return [
+    body(['defaultZipCode', 'secondaryZipCode'])
+      .isPostalCode('any')
+      .withMessage('Invalid Zip Code Found')
+      .optional({ checkFalsy: true }),
+    body(['defaultCity', 'secondaryCity']).custom(async cityName => {
+      const validCity = await isValidCity(cityName);
+      if (!validCity) {
+        return Promise.reject();
+      }
+      return true;
+    }).withMessage('Invalid City Name').optional({ checkFalsy: true })
+  ];
+}
+
+const isValidCity = async (city) => {
+  const exists = await CityModel.exists({ name: city });
+  return exists ? true : false;
 }

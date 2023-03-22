@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import UserSchema from "../schemas/UserSchema.js";
+import UserModel from "../models/UserModel.js";
 import UserSubscription from '../enums/UserSubscription.js';
 import { hashPassword, renderResponse } from '../helpers/UserHelper.js';
 
@@ -17,13 +17,13 @@ class User {
 
   // Returns true if user was created, false otherwise
   async register(res) {
-    const exists = await UserSchema.exists({ username: this.username });
+    const exists = await UserModel.exists({ username: this.username });
     if (!exists) {
       console.debug('creating new User');
       this.password = await hashPassword(this.password, 10);
 
       try {
-        const user = new UserSchema({
+        const user = new UserModel({
           username: this?.username,
           password: this?.password,
           email: this?.email,
@@ -36,10 +36,21 @@ class User {
         return await user.save();
       } catch (err) {
         console.error(err);
-        return this.renderResponse(res, 'register', 'Unknown Error Occurred', this)
+        return renderResponse(res, 'register', 'Unknown Error Occurred', this)
       }
     }
-    return this.renderResponse(res, 'register', 'Username already exists');
+    return renderResponse(res, 'register', 'Username already exists');
+  }
+
+  async getId() {
+    try {
+      const user = await UserModel.findOne({ username: this.username });
+      if (user) {
+        return user._id;
+      }
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   formatSubscriptions(subs) {
