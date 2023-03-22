@@ -3,9 +3,7 @@ import mongoose from 'mongoose';
 const collectionName = "UserSettings";
 const userSettingsSchema = new mongoose.Schema (
   {
-    userId: {
-      type: mongoose.Types.ObjectId, ref: 'Users',
-    },
+    userId: { type: mongoose.Types.ObjectId, ref: 'Users' },
     defaultCity: { type: String },
     secondaryCity: { type: String },
     defaultZipCode: { type: String },
@@ -15,6 +13,6 @@ const userSettingsSchema = new mongoose.Schema (
   }, { timestamps: true, versionKey: false, collection: collectionName }
 );
 
-const UserSettingsSchema = mongoose.model(collectionName, userSettingsSchema);
+const UserSettingsModel = mongoose.model(collectionName, userSettingsSchema);
  
-export default UserSettingsSchema;
+export default UserSettingsModel;

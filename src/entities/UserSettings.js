@@ -1,4 +1,4 @@
-import UserSettingsSchema from "../schemas/UserSettingsSchema.js";
+import UserSettingsModel from "../models/UserSettingsModel.js";
 import { buildLogOutPath } from "../helpers/ProfileHelper.js";
 import { getReturnData } from "../helpers/UserSettingsHelper.js";
 
@@ -11,10 +11,10 @@ class UserSettings {
   // Create an empty UserSettings so it exists when the user updates it in the future.
   async init() {
     const userId = this.userId;
-    const exists = await UserSettingsSchema.exists({ userId: userId });
+    const exists = await UserSettingsModel.exists({ userId: userId });
     if (!exists) {
       try {
-        const userSettings = new UserSettingsSchema({
+        const userSettings = new UserSettingsModel({
           userId: userId,
         });
         await userSettings.save();
@@ -29,7 +29,7 @@ class UserSettings {
 
   async updateUserSettings(updateMap, req, res) {
     const userId = this.userId;
-    const userSettings = await UserSettingsSchema.findOne({ userId: userId });
+    const userSettings = await UserSettingsModel.findOne({ userId: userId });
     if (userSettings) {
       const keys = updateMap.map(entry => entry.field);
       const values = updateMap.map(entry => entry.value);

@@ -13,6 +13,6 @@ const userSchema = new mongoose.Schema (
   }, { timestamps: true, versionKey: false, collection: collectionName }
 );
 
-const UserSchema = mongoose.model(collectionName, userSchema);
+const UserModel = mongoose.model(collectionName, userSchema);
  
-export default UserSchema;
+export default UserModel;

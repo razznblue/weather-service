@@ -1,8 +1,8 @@
-import CitySchema from '../schemas/CitySchema.js';
+import CityModel from '../models/CityModel.js';
 
 export const updateCity = async (cityData) => {
   const owmCity = cityData[0];
-  const city = await CitySchema.findOne({ name: owmCity.name });
+  const city = await CityModel.findOne({ name: owmCity.name });
   if (!city.lat && !city.lon) { 
     city.lat = owmCity?.lat;
     city.lon = owmCity?.lon;

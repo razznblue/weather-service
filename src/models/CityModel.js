@@ -3,10 +3,7 @@ import mongoose from 'mongoose';
 const collectionName = "City";
 const citySchema = new mongoose.Schema (
   {
-    name: {
-      type: String,
-      required: true,
-    },
+    name: { type: String, required: true },
     openWeatherCityId: { type: String },
     lat: { type: String },
     lon: { type: String },
@@ -16,6 +13,6 @@ const citySchema = new mongoose.Schema (
   }, { versionKey: false, timestamps: false, collection: collectionName }
 );
 
-const CitySchema = mongoose.model(collectionName, citySchema);
+const CityModel = mongoose.model(collectionName, citySchema);
  
-export default CitySchema;
+export default CityModel;

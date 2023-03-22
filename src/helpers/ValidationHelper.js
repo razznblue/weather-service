@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import CitySchema from '../schemas/CitySchema.js';
+import CityModel from '../models/CityModel.js';
 
 export const validateRegisterForm = () => {
   return [
@@ -80,6 +80,6 @@ export const validateSettingsUpdate = async () => {
 }
 
 const isValidCity = async (city) => {
-  const exists = await CitySchema.exists({ name: city });
+  const exists = await CityModel.exists({ name: city });
   return exists ? true : false;
 }

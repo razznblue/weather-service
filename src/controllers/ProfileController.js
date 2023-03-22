@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-import UserSchema from "../schemas/UserSchema.js";
+import UserModel from "../models/UserModel.js";
 import { verifyUser, formatPhoneForProfile, subscribedTo, buildLogOutPath } from "../helpers/ProfileHelper.js";
 import { hashPassword, formatPhone } from "../helpers/UserHelper.js";
 
@@ -10,7 +10,7 @@ const logoutPath = buildLogOutPath();
 export const renderProfile = async (req, res) => {
   verifyUser(req, res);
 
-  const user = await UserSchema.findOne({ _id: req.userId });
+  const user = await UserModel.findOne({ _id: req.userId });
   if (!user) { console.error('UserId in session does exist in DB... HOW??') };
 
   const username = user?.username;
@@ -52,7 +52,7 @@ export const updateProfile = async (req, res) => {
     })
   }
 
-  const user = await UserSchema.findOne({ _id: req.userId });
+  const user = await UserModel.findOne({ _id: req.userId });
   if (!user) { console.error('UserId in session does exist in DB... HOW??') };
 
   if (user.username !== username) {

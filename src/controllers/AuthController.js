@@ -5,7 +5,7 @@ dotenv.config();
 
 import User from "../entities/User.js";
 import UserSettings from "../entities/UserSettings.js";
-import UserSchema from "../schemas/UserSchema.js";
+import UserModel from "../models/UserModel.js";
 import { comparePassword, renderResponse, formatPhone } from "../helpers/UserHelper.js";
 import Constants from "../constants/constants.js";
 import { userIsLoggedIn } from "../config/auth.js";
@@ -65,7 +65,7 @@ export const loginUser = async (req, res) => {
     })
   }
 
-  const user = await UserSchema.findOne({ username: username });
+  const user = await UserModel.findOne({ username: username });
   if (user) {
     const authenticated = await comparePassword(pass, user.password);
     if (authenticated) {

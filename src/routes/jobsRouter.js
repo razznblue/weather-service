@@ -3,7 +3,7 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import CitySchema from '../schemas/CitySchema.js';
+import CityModel from '../models/CityModel.js';
 
 
 const jobs = express.Router();
@@ -33,7 +33,7 @@ jobs.get('/cities', async (req, res) => {
     const erroredCities = [];
     for (const city of cities) {
       try {
-        const cityDoc = new CitySchema({name: city.name});
+        const cityDoc = new CityModel({name: city.name});
         await cityDoc.save();
       } catch(err) {
         erroredCities.push(city.name);
