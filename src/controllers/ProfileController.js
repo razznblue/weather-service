@@ -3,8 +3,9 @@ import { validationResult } from "express-validator";
 import UserModel from "../models/UserModel.js";
 import { verifyUser, formatPhoneForProfile, subscribedTo, buildLogOutPath } from "../helpers/ProfileHelper.js";
 import { hashPassword, formatPhone } from "../helpers/UserHelper.js";
+import Constants from "../constants/constants.js";
 
-const PROFILE = 'profile';
+const { VIEWS } = Constants;
 const logoutPath = buildLogOutPath();
 
 export const renderProfile = async (req, res) => {
@@ -19,7 +20,7 @@ export const renderProfile = async (req, res) => {
   const subscribedToDailyWeather = subscribedTo(user?.subscriptions, 'daily-weather');
   const subscribedToWeatherAlerts = subscribedTo(user?.subscriptions, 'weather-alert');
 
-  res.render(PROFILE, {
+  res.render(VIEWS.PROFILE, {
     username, email, phone,
     dailyWeather: subscribedToDailyWeather,
     weatherAlerts: subscribedToWeatherAlerts,
@@ -44,7 +45,7 @@ export const updateProfile = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    return res.render(PROFILE, {
+    return res.render(VIEWS.PROFILE, {
       username, email, phone, alert, 
       dailyWeather: dailyWeatherSubscription,
       weatherAlerts: severeWeatherAlertsSubscription,
@@ -81,7 +82,7 @@ export const updateProfile = async (req, res) => {
   }
   await user.save();
 
-  return res.render(PROFILE, {
+  return res.render(VIEWS.PROFILE, {
     username, email, phone,
     successMsg: 'Updated your information!',
     dailyWeather: dailyWeatherSubscription,

@@ -1,7 +1,10 @@
 import UserSettingsModel from "../models/UserSettingsModel.js";
 import { buildLogOutPath } from "../helpers/ProfileHelper.js";
 import { getReturnData } from "../helpers/UserSettingsHelper.js";
+import Constants from "../constants/constants.js";
 
+
+const { VIEWS } = Constants;
 
 class UserSettings {
   constructor(userId) {
@@ -42,7 +45,7 @@ class UserSettings {
         const returnData = await getReturnData(userId);
         returnData.successMsg = 'Updated your settings!';
         returnData.logoutPath = buildLogOutPath();
-        return res.render('settings', returnData);
+        return res.render(VIEWS.SETTINGS, returnData);
       } catch(err) {
         console.error(err);
       }

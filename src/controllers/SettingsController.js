@@ -4,9 +4,10 @@ import OpenWeatherManager from "../managers/OpenWeatherManager.js";
 import UserSettings from "../entities/UserSettings.js";
 import { verifyUser, buildLogOutPath } from "../helpers/ProfileHelper.js";
 import { getReturnData } from "../helpers/UserSettingsHelper.js";
+import Constants from "../constants/constants.js";
 
 
-const SETTINGS = 'settings';
+const { VIEWS } = Constants;
 const logoutPath = buildLogOutPath();
 const openWeatherManager = new OpenWeatherManager();
 
@@ -15,7 +16,7 @@ export const renderSettings = async (req, res) => {
 
   const returnData = await getReturnData(req.userId);
   returnData.logoutPath = logoutPath;
-  return res.render(SETTINGS, returnData);
+  return res.render(VIEWS.SETTINGS, returnData);
 }
 
 export const updateSettings = async (req, res) => {
@@ -28,7 +29,7 @@ export const updateSettings = async (req, res) => {
     const returnData = await getReturnData(req.userId);
     returnData.alert = alert;
     returnData.logoutPath = logoutPath;
-    return res.render(SETTINGS, returnData);
+    return res.render(VIEWS.SETTINGS, returnData);
   }
 
   const updateMap = getFieldSettingsToUpdate(req);

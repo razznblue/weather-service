@@ -12,8 +12,7 @@ import { userIsLoggedIn } from "../config/auth.js";
 
 
 const baseUrl = Constants.BASE_URL;
-const LOGIN = 'login';
-const REGISTER = 'register'
+const { VIEWS } = Constants;
 
 export const registerUser = async (req, res) => {
   const username = req.body.username;
@@ -30,7 +29,7 @@ export const registerUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    return res.render(REGISTER, {
+    return res.render(VIEWS.REGISTER, {
       username, email, phone, alert
     })
   }
@@ -45,7 +44,7 @@ export const registerUser = async (req, res) => {
   await userSettings.init();
 
   // Return Success Msg
-  return res.render(REGISTER, {
+  return res.render(VIEWS.REGISTER, {
     username, email, phone, successMsg: 'Registered successfully!'
   })
 }
@@ -60,7 +59,7 @@ export const loginUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    return res.render(LOGIN, {
+    return res.render(VIEWS.LOGIN, {
       username, alert
     })
   }
@@ -80,10 +79,10 @@ export const loginUser = async (req, res) => {
       //const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
       //return res.header('auth_token', token).send({ token: token });
     } else {
-      renderResponse(res, LOGIN, 'Invalid password', { username });
+      renderResponse(res, VIEWS.LOGIN, 'Invalid password', { username });
     }
   } else {
-    renderResponse(res, LOGIN, 'User not found', { username });
+    renderResponse(res, VIEWS.LOGIN, 'User not found', { username });
   }
 }
 
@@ -92,19 +91,19 @@ export const renderLogin = (req, res)=> {
   if (userIsLoggedIn(req)) {
     return res.redirect(`${baseUrl}/profile`);
   }
-  return res.render(LOGIN)
+  return res.render(VIEWS.LOGIN)
 }
 
 export const renderRegister = (req, res)=> {
   if (userIsLoggedIn(req)) {
     return res.redirect(`${baseUrl}/profile`);
   }
-  return res.render(REGISTER)
+  return res.render(VIEWS.REGISTER)
 }
 
 export const logout = (req, res) => {
   res.clearCookie('session_token');
-  res.render(LOGIN, {
+  res.render(VIEWS.LOGIN, {
     successMsg: 'You are logged out'
   });
 }
