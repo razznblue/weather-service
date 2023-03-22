@@ -1,5 +1,6 @@
 import UserSettingsSchema from "../schemas/UserSettingsSchema.js";
 import { buildLogOutPath } from "../helpers/ProfileHelper.js";
+import { getReturnData } from "../helpers/UserSettingsHelper.js";
 
 
 class UserSettings {
@@ -37,19 +38,13 @@ class UserSettings {
           userSettings[keys[i]] = values[i];
         }
         await userSettings.save();
-        const returnData = {
-          defaultCity: req.body.defaultCity,
-          secondaryCity: req.body.secondaryCity,
-          defaultZipCode: req.body.defaultZipCode,
-          secondaryZipCode: req.body.secondaryZipCode,
-          receiveIconsWithTexts: !req.body.receiveIconsWithTexts ? false : true,
-          receiveLinksWithTexts: !req.body.receiveLinksWithTexts ? false : true,
-          successMsg: 'Updated your settings!',
-          logoutPath: buildLogOutPath()
-        };
+
+        const returnData = await getReturnData(userId);
+        returnData.successMsg = 'Updated your settings!';
+        returnData.logoutPath = buildLogOutPath();
         return res.render('settings', returnData);
       } catch(err) {
-        console.log(err);
+        console.error(err);
       }
     } else {
       console.error(`Could not find UserSettings with userId ${userId} to update`);

@@ -1,16 +1,21 @@
 import { validationResult } from "express-validator";
 
+import OpenWeatherManager from "../managers/OpenWeatherManager.js";
 import UserSettings from "../entities/UserSettings.js";
 import { verifyUser, buildLogOutPath } from "../helpers/ProfileHelper.js";
+import { getReturnData } from "../helpers/UserSettingsHelper.js";
+
 
 const SETTINGS = 'settings';
 const logoutPath = buildLogOutPath();
+const openWeatherManager = new OpenWeatherManager();
 
 export const renderSettings = async (req, res) => {
   verifyUser(req, res);
-  res.render(SETTINGS, {
-    logoutPath
-  });
+
+  const returnData = await getReturnData(req.userId);
+  returnData.logoutPath = logoutPath;
+  return res.render(SETTINGS, returnData);
 }
 
 export const updateSettings = async (req, res) => {
@@ -19,16 +24,10 @@ export const updateSettings = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const alert = errors.array();
-    const returnData = {
-      defaultCity: req.body.defaultCity,
-      secondaryCity: req.body.secondaryCity,
-      defaultZipCode: req.body.defaultZipCode,
-      secondaryZipCode: req.body.secondaryZipCode,
-      receiveIconsWithTexts: !req.body.receiveIconsWithTexts ? false : true,
-      receiveLinksWithTexts: !req.body.receiveLinksWithTexts ? false : true,
-      alert,
-      logoutPath
-    };
+
+    const returnData = await getReturnData(req.userId);
+    returnData.alert = alert;
+    returnData.logoutPath = logoutPath;
     return res.render(SETTINGS, returnData);
   }
 
@@ -37,6 +36,10 @@ export const updateSettings = async (req, res) => {
   const userSettings = new UserSettings(req.userId);
   await userSettings.init();
   await userSettings.updateUserSettings(updateMap, req, res);
+
+  // Update city information in the DB
+  await saveOrUpdateCities(updateMap);
+
   return updateMap;
 }
 
@@ -54,4 +57,15 @@ const getFieldSettingsToUpdate = (req) => {
   }
 
   return fieldsToUpdate;
+}
+
+const saveOrUpdateCities = async (updateMap) => {
+  const defaultCity = updateMap.find(entry => entry.field === 'defaultCity');
+  const secondaryCity = updateMap.find(entry => entry.field === 'secondaryCity');
+  if (defaultCity) {
+    await openWeatherManager.fetchAndSaveCityInfo(defaultCity.value);
+  }
+  if (secondaryCity) {
+    await openWeatherManager.fetchAndSaveCityInfo(secondaryCity.value);
+  }
 }

@@ -10,17 +10,17 @@ import ConditionCode from '../entities/ConditionCode.js';
 
 class OpenWeatherManager {
   constructor() {
-    this.baseUrl = "https://api.openweathermap.org/data/2.5/";
+    this.baseUrl = "https://api.openweathermap.org";
     this.lat = "39.100105";
     this.lon = "-94.5781416";
-    this.apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;  
+    this.apiKey = process.env.OPEN_WEATHER_MAP_API_KEY;
     this.smsManager = new SMSManager();
   }
 
   async fetchCurrentWeather() {
     // In the future include a city parameter on this function. And use the Geo API to get the lat/lon of the city.
 
-    const url = `${this.baseUrl}/weather?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`;
+    const url = `${this.baseUrl}/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`;
     const response = await axios.get(url);
     const data = response.data;
     const weathers = data.weather;
@@ -47,7 +47,7 @@ class OpenWeatherManager {
   // Example: User sends a text of forecst for the next # of hours. 
   // This method could be used to retrieve the requested data and send it through text
   async fetchFiveDayWeather() {
-    const url = `${this.baseUrl}/forecast?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`;
+    const url = `${this.baseUrl}/data/2.5/forecast?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`;
     const response = await axios.get(url);
     const days = response.data.list;
 
@@ -68,6 +68,16 @@ class OpenWeatherManager {
     //const iconCode = weatherData[1];
     const openWeatherId = weatherData[2];
     return await this.smsManager.sendWeatherText(msg, null, TextType.DailyWeather, openWeatherId);
+  }
+
+  async fetchAndSaveCityInfo(cityName) {
+    try {
+      const url = `${this.baseUrl}/geo/1.0/direct?q=${cityName}&appid=${this.apiKey}`;;
+      const response = await axios.get(url);
+      return response;
+    } catch(err) {
+      console.log(`error fetching data for city ${cityName}`);
+    }
   }
 
   buildDailyWeatherMessage(currentDegrees, feelsLike, forecast, description) {

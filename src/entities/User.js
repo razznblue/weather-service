@@ -49,7 +49,7 @@ class User {
         return user._id;
       }
     } catch(err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
