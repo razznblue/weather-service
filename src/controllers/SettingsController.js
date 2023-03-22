@@ -17,8 +17,10 @@ export const updateSettings = async (req, res) => {
   verifyUser(req, res);
 
   const errors = validationResult(req);
+  console.log(JSON.stringify(errors));
   if (!errors.isEmpty()) {
     const alert = errors.array();
+    console.log('errors: ' + alert);
     return res.render(SETTINGS, {
       alert, logoutPath
     })

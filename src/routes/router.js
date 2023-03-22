@@ -8,6 +8,7 @@ import OpenWeatherManager from '../managers/OpenWeatherManager.js';
 
 import { sessionAuth } from '../config/auth.js';
 import auth from './authRouter.js';
+import jobs from './jobsRouter.js';
 import profile from './profileRouter.js';
 import settings from './settingsRouter.js';
 
@@ -20,11 +21,13 @@ const openWeatherManager = new OpenWeatherManager();
 const accessToken = process.env.ACCESS_TOKEN;
 
 router.use('/auth', auth);
+router.use('/jobs', jobs);
 router.use('/profile', sessionAuth, profile);
 router.use('/settings', sessionAuth, settings);
 
 // Routes
 router.get('/', (req, res) => res.redirect('/auth/login'));
+
 
 router.get('/health', (req, res) => {
   const healthCheckManager = new HealthCheckManager();
