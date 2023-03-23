@@ -38,7 +38,6 @@ export const updateSettings = async (req, res) => {
   await userSettings.init();
   await userSettings.updateUserSettings(updateMap, req, res);
 
-  console.log('starting to update city information');
   // Update city information in the DB
   await saveOrUpdateCities(updateMap);
 
@@ -65,7 +64,6 @@ const saveOrUpdateCities = async (updateMap) => {
   const defaultCity = updateMap.find(entry => entry.field === 'defaultCity');
   const secondaryCity = updateMap.find(entry => entry.field === 'secondaryCity');
   if (defaultCity) {
-    console.log('trying to update city');
     await openWeatherManager.fetchAndSaveCityInfo(defaultCity.value);
   }
   if (secondaryCity) {
