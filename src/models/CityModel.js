@@ -14,5 +14,9 @@ const citySchema = new mongoose.Schema (
 );
 
 const CityModel = mongoose.model(collectionName, citySchema);
+
+export const getCityByName = async (cityName) => {
+  return await CityModel.findOne({ name: owmCity.name });
+}
  
 export default CityModel;

@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 import UserModel from "../models/UserModel.js";
 import UserSubscription from '../enums/UserSubscription.js';
 import { hashPassword, renderResponse } from '../helpers/UserHelper.js';

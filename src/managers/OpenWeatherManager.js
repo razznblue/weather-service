@@ -6,6 +6,7 @@ import TextType from '../enums/TextType.js';
 import SMSManager from './SMSManager.js';
 import Constants from '../constants/constants.js';
 import ConditionCode from '../entities/ConditionCode.js';
+import { updateCity } from '../helpers/CityHelper.js';
 
 
 class OpenWeatherManager {
@@ -74,7 +75,7 @@ class OpenWeatherManager {
     try {
       const url = `${this.baseUrl}/geo/1.0/direct?q=${cityName}&appid=${this.apiKey}`;;
       const response = await axios.get(url);
-      return response;
+      updateCity(response.data);
     } catch(err) {
       console.log(`error fetching data for city ${cityName}`);
     }
