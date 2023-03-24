@@ -1,5 +1,9 @@
 import ConditionCodeModel from "../models/ConditionCodeModel.js";
+import BaseModel from "../models/BaseModel.js";
+import Constants from "../constants/constants.js";
 
+
+const { MODELS: {CONDITION_CODE} } = Constants;
 
 class ConditionCode {
   constructor(openWeatherId, main, description, icon) {
@@ -11,7 +15,7 @@ class ConditionCode {
   }
 
   async save() {
-    const exists = await ConditionCodeModel.exists({ openWeatherId: this.openWeatherId });
+    const exists = await BaseModel.existsByKeyAndValue(CONDITION_CODE, 'openWeatherId', this.openWeatherId);
     if (!exists) {
 
       const conditionCode = new ConditionCodeModel({

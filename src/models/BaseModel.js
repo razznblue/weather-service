@@ -15,6 +15,22 @@ const models = {
 
 const BaseModel = {
 
+  async existsById(modelName, id) {
+    try {
+      return await models[modelName].exists({ _id: id });
+    } catch(err) {
+      console.error(`Error determining if ${modelName} with id ${id} exists`);
+    }
+  },
+
+  async existsByKeyAndValue(modelName, key, value) {
+    try {
+      return await models[modelName].exists({ [key]: value });
+    } catch(err) {
+      console.error(`Error determining if ${modelName} with key ${key} and value ${value} exists`);
+    }
+  },
+
   async getById(modelName, id) {
     try {
       return await models[modelName].findById(id);
@@ -25,8 +41,7 @@ const BaseModel = {
 
   async getByKeyAndValue(modelName, key, value) {
     try {
-      const model = await models[modelName].findOne({ [key]: value });
-      return model;
+      return await models[modelName].findOne({ [key]: value });
     } catch(err) {
       console.error(`Error getting ${modelName} document by key ${key} and value ${value}`);
     }
