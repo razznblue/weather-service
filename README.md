@@ -1,5 +1,6 @@
 # Weather-Service
   A service that sends weather reports and alerts to subscribers.
+ - (NOTE) This project is currently not deployed but still works!
 
 ## Integrations
  - **OpenWeatherMap API**; this application consumes live weather data
