@@ -12,9 +12,6 @@ const Constants = {
     KMBC_ALERTS_URL: "https://www.kmbc.com/alerts",
     KMBC_WEATHER_URL: "https://www.kmbc.com/weather"
   },
-  DOM: {
-
-  },
   MESSAGES: {
     NO_ALERTS_FOUND: 'No Severe Weather Alerts Found',
     ALERT_DETECTED: 'SEVERE WEATHER ALERT DETECTED'
@@ -24,6 +21,13 @@ const Constants = {
     REGISTER: 'register',
     PROFILE: 'profile',
     SETTINGS: 'settings'
+  },
+  MODELS: {
+    CITY: 'city',
+    CONDITION_CODE: 'conditionCode',
+    TEXT: 'text',
+    USER: 'user',
+    USER_SETTINGS: 'userSettings'
   }
 }
 
